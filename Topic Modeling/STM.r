@@ -2,12 +2,12 @@
 library(stm)
 library(stminsights)
 library(quanteda)
+library(wordcloud)
 
-# Read 'data' and 'stop_words' (used in LDA)
-data0 <- read.csv("data_train_class_balanced_9-4.csv") # Output of 'Balance_data_class_9-4.ipynb'
-# stop_words = read.csv('stop_words.csv')$X0
+# Read 'data0' (output of 'Balance_data_class_9-4.ipynb')
+data0 <- read.csv("data_train_class_balanced_9-4.csv") 
 
-# Convert some 'data' types
+# Convert types
 data0$date <- stringr::str_extract(data0$date, "[0-9]{4}$") |> as.numeric()
 data0$date <- data0$date - 2000 
 data0$drugClass <- data0$drugClass |> as.factor()
@@ -21,49 +21,37 @@ data <- dfm(data, stem = TRUE, remove = stopwords('english'),
 out <- convert(data, to = 'stm')
 
 
-############# STM #############
-
-num_top <- 7 # it is optimal
-
-# STM model 1 (try K = 0 for automatic selection of K)
-model_stm1 <- stm(documents = out$documents, vocab = out$vocab,
-                K = num_top, 
-                prevalence = ~ positiveness + s(date),
-                #content = ~ drugClass,
-                data = out$meta,
-                max.em.its = 100,
-                init.type = "Spectral", 
-                seed = 123,
-                emtol = 1e-2) # put 1e-5 for the final run
-
-# See topics
-labelTopics(model_stm1, c(1:7), n = 15, frexweight = 0.6)
-
-# Estimate effects
-model_effects_1 <- estimateEffect(1:7 ~ positiveness + s(date), model_stm1,
-                            meta = out$meta, prior = 1e-5)
-
-
-# STM model 2 (try K = 0 for automatic selection of K)
-model_stm2 <- stm(documents = out$documents, vocab = out$vocab,
-                K = num_top, 
+# STM model training (try K = 0 for automatic selection of K)
+model_stm <- stm(documents = out$documents, vocab = out$vocab,
+                K = 7, 
                 prevalence = ~ positiveness + s(date),
                 content = ~ drugClass,
                 data = out$meta,
                 max.em.its = 100,
                 init.type = "Spectral", 
                 seed = 123,
-                emtol = 1e-2) # put 1e-5 for the final run
+                emtol = 5e-5)
 
 # See topics
-labelTopics(model_stm2, c(1:7), n = 15, frexweight = 0.6)
+labelTopics(model_stm, c(1:7), n = 15, frexweight = 0.6)
 
-# Estimate effects
-model_effects_2 <- estimateEffect(1:7 ~ positiveness + s(date), model_stm2,
+# Compute metrics
+exclusivity(model_stm, M = 20, frexw = 0.6) # it doeasn't work with 'context' variables
+mean(semanticCoherence(model_stm2, out$documents, M = 20))
+
+
+# Estimate effects of model
+model_effects <- estimateEffect(1:7 ~ positiveness + s(date), model_stm,
                             meta = out$meta, prior = 1e-5)
+
 
 # Prepare the image for shiny app
 save.image('stm.RData')
+load("/home/niccolo/Documenti/Università_magistrale/Text Mining/Project/Topic-Modeling/STM-R/stm.RData")
+
 
 # Run shiny app
 run_stminsights()
+
+
+
