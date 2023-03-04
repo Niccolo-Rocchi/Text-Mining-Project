@@ -7,7 +7,7 @@
 
 ## How to use:
 
-Data is available at [this link] (https://archive.ics.uci.edu/ml/datasets/Drug+Review+Dataset+%28Drugs.com%29). You will find a training set named *drugsComTrain_raw.tsv* and a test set named *drugsComTest_raw.tsv*.
+Data is available at [this link](https://archive.ics.uci.edu/ml/datasets/Drug+Review+Dataset+%28Drugs.com%29). You will find a training set named *drugsComTrain_raw.tsv* and a test set named *drugsComTest_raw.tsv*.
 
 Please notice you have to modify any row in the code below containing *our* data path with *your* data path, either in Drive or locally. If you missed some Python or R libraries, please install them through **pip** (Python) or **install.packages** (R).
 
