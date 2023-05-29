@@ -2,14 +2,11 @@
 ### Rocchi Niccolò, Gravina Greta.
 ###### *Università degli Studi di Milano-Bicocca, M.Sc. Data Science. Text Mining & Search course final project*
 
-*... This repo is a work in progress...*
-
-
 ## How to use:
 
-Data is available at [this link](https://archive.ics.uci.edu/ml/datasets/Drug+Review+Dataset+%28Drugs.com%29). You will find a training set named *drugsComTrain_raw.tsv* and a test set named *drugsComTest_raw.tsv*.
+Data are available at [this link](https://archive.ics.uci.edu/ml/datasets/Drug+Review+Dataset+%28Drugs.com%29). You can find a training set named *drugsComTrain_raw.tsv* and a test set named *drugsComTest_raw.tsv*.
 
-Please notice you have to modify any row in the code below containing *our* data path with *your* data path, either in Drive or locally. If you missed some Python or R libraries, please install them through **pip** (Python) or **install.packages** (R).
+Please notice that you have to modify any row in the code below containing data path with *your own* data path, either it is in Drive or locally. If you missed some Python or R libraries, please install them through `pip` (Python) or `install.packages` (R).
 
 ### Data Preparation 
 
@@ -21,7 +18,7 @@ We trained two models: LDA and STM. For topic modelling we only use training dat
 
 1. **LDA**
 
-The reference notebook is ***./Topic Modeling/LDA.ipynb***. Here we apply an LDA model from gensim library. After having loaded data, it is then pre-processed, the model is trained and results are visualized. 
+The reference notebook is ***./Topic Modeling/LDA.ipynb***. Here we apply an LDA model from `gensim` library. After having loaded data, it is pre-processed, then the model is trained and results are visualized. 
 
 Please notice that:
 
@@ -31,24 +28,24 @@ Please notice that:
 
 2. **STM** 
 
-The reference file is ***./Topic Modeling/STM.r***. This R file provides pre-processing of data, training of a STM model and the instructions to run a shiny app. This app provides STM model visualizations. After estimating your model and the effects, just save an R image of your workspace with:
+The reference file is ***./Topic Modeling/STM.r***. This R file provides pre-processing of data, training of a STM model and the instructions to run a shiny app. This app provides STM model visualizations. After estimating your model and the effects, save an R image of your workspace with:
 
 ```
 save.image('stm.RData')
 ```
 
-Then you can run the shiny app by running:
+Then run the shiny app by running:
 
 ```
 library(stminsights)
 run_stminsights()
 ```
-The app will listen locally on some port. Please follow the output of previous commands to know the right URL the app is listened on.
+The app will be listening locally on some port. Please follow the output of previous command to know the right URL the app is listening to.
 
-Finally, you have just to load your recently saved R workspace (*stm.rData*) in the app, choose the model and effects you want to analize (one in our case) and that's it: you can explore plots and information about your STM model.
+Finally, you have to load your recently saved R workspace (*stm.rData*) in the app, choose the model and the effects you want to analize - one in our case. Now you can explore plots and information about STM model.
 
 
 ### Sentiment analysis
 
-*...work in progress, stay tuned!*
+The reference file is ***./Sentiment Analysis/Sentiment-Analysis.ipynb***. It contains both an exploratory analysis and models.
 
